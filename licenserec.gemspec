@@ -3,21 +3,21 @@
 require_relative "lib/licenserec/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "licenserec"
+  spec.name = "licenserec.rb"
   spec.version = Licenserec::VERSION
-  spec.authors = ["Ymeaa"]
-  spec.email = ["1026883005"]
+  spec.authors = ["oss-lab"]
+  spec.email = ["blesswoo@pku.edu.cn"]
 
-  spec.summary = "licenserec."
-  spec.description = "licenserec."
-  spec.homepage = "https://github.com/Ymeaa/licenserec"
+  spec.summary = "licenserec.rb."
+  spec.description = "licenserec.rb."
+  spec.homepage = "https://github.com/Ymeaa/licenserec.rb"
   spec.required_ruby_version = ">= 2.4.0"
 
   spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/Ymeaa/licenserec"
-  spec.metadata["changelog_uri"] = "https://github.com/Ymeaa/licenserec"
+  spec.metadata["source_code_uri"] = "https://github.com/Ymeaa/licenserec.rb"
+  spec.metadata["changelog_uri"] = "https://github.com/Ymeaa/licenserec.rb"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -27,7 +27,8 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  # spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables = %w{ licenserec.rb }
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem

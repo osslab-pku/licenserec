@@ -7,6 +7,11 @@ require 'csv'
 
 module Licenserec
   class CompatibilityFilter
+    def initialize(repo_path)
+      puts "begin"
+      puts license_detection(repo_path)   # 方法测试
+      puts "end"
+    end
     # 遍历文件夹
     def show_files(f_path,repofiles_pathlist)
       if File.directory? f_path
@@ -40,7 +45,7 @@ module Licenserec
         file_licenses = ninka_process(filepath)
         file_licenses_hash.store(filepath,file_licenses)
         dual_licenses = Set.new
-        dual_licenses_str = Hash.new
+        dual_licenses_str = ""
         file_licenses.each { |license_in_onefile|
           if other_licenses.include? license_in_onefile
             licenses_set.add("Other")
@@ -54,7 +59,7 @@ module Licenserec
               dual_licenses.add(license_in_onefile)
             end
           end
-          licenses_set.add(dual_licenses_str.first(dual_licenses_str.length-4))
+          licenses_set.add(dual_licenses_str[0,dual_licenses_str.length-4])
           licenses_set.delete("")
         }
       }
@@ -108,6 +113,9 @@ module Licenserec
   end
 
   class CompatibilityCheck
+    def initialize(repo_path)
+      puts compatibilitycheck(repo_path)
+    end
     def compatibilitycheck(repo_path)
       file_licenses_hash,licenses_set = CompatibilityFilter.license_detection(repo_path)
       confilct_copyleft_set = Set.new
@@ -168,8 +176,8 @@ module Licenserec
               end
             else
               licenseBs = licenseB.split(' or ')
-              for lA in licenseAs:
-                for lB in licenseBs:
+              licenseAs.each do |lA|
+                licenseBs.each do |lB|
                   if check_license_list.include? lA and check_license_list.include? lB:
                     ischeck = 1
                     compatibility_result_ab = compatibility_judge(lA, lB)
@@ -191,5 +199,6 @@ module Licenserec
       end
     end
   end
+
 end
 
