@@ -8,6 +8,7 @@ require 'csv'
 module Licenserec
   class CompatibilityFilter
     def initialize(repo_path,licenseA_set,all_rec_licenses)
+      puts "兼容许可证筛选"
       licenseA_set = CompatibilityFilter.license_detection(repo_path)
       licenseA_set.each do |ii|
         puts ii
@@ -129,6 +130,7 @@ module Licenserec
 
   class CompatibilityCheck
     def initialize(repo_path)
+      puts "兼容性冲突检查"
       ss = compatibilitycheck(repo_path)
       ss.each do |ii|
         puts ii
