@@ -7,13 +7,21 @@ require 'csv'
 
 module Licenserec
   class CompatibilityFilter
-    def initialize(repo_path)
-      puts "begin"
-      puts license_detection(repo_path)   # 方法测试
-      puts "end"
+    def initialize(repo_path,licenseA_set,all_rec_licenses)
+      licenseA_set = CompatibilityFilter.license_detection(repo_path)
+      licenseA_set.each do |ii|
+        puts ii
+      end
+      rec1,rec2,rec12 = compatibility_filter(licenseA_set,all_rec_licenses)
+      puts "rec1"
+      puts rec1
+      puts "rec2"
+      puts rec2
+      puts "rec12"
+      puts rec12
     end
     # 遍历文件夹
-    def show_files(f_path,repofiles_pathlist)
+    def self.show_files(f_path,repofiles_pathlist)
       if File.directory? f_path
         Dir.foreach(f_path) do |file|
           if file != "." and file != ".."
@@ -26,14 +34,14 @@ module Licenserec
       return repofiles_pathlist
     end
 
-    def ninka_process(filepath)
+    def self.ninka_process(filepath)
       io = IO.popen("perl E:\\ninka-tool\\ninka-master\\bin\\ninka.pl " + filepath)
       io_stdout = io.gets.split(";")
       file_license_list = io_stdout[1].split(",")
       return file_license_list
     end
 
-    def license_detection(repo_path)
+    def self.license_detection(repo_path)
       # 遍历项目文件夹，获取项目中所有文件路径
       repofiles_pathlist = []
       repofiles_pathlist = show_files(repo_path,repofiles_pathlist)
@@ -41,32 +49,39 @@ module Licenserec
       other_licenses = ["SeeFile", "UNKNOWN"]
       licenses_set = Set.new
       file_licenses_hash = {}
-      repofiles_pathlist.each {|filepath|
-        file_licenses = ninka_process(filepath)
-        file_licenses_hash.store(filepath,file_licenses)
-        dual_licenses = Set.new
-        dual_licenses_str = ""
-        file_licenses.each { |license_in_onefile|
-          if other_licenses.include? license_in_onefile
-            licenses_set.add("Other")
-          elsif license_in_onefile.include? "NONE"
-            licenses_set.add("")
-          else
-            if dual_licenses.include? license_in_onefile
-              puts("1")
+      repofiles_pathlist.each do |filepath|
+        # 需要进行异常处理
+        begin
+          file_licenses = ninka_process(filepath)
+          file_licenses_hash.store(filepath,file_licenses)
+          dual_licenses = Set.new
+          dual_licenses_str = ""
+          file_licenses.each do |license_in_onefile|
+            if other_licenses.include? license_in_onefile
+              licenses_set.add("Other")
+            elsif license_in_onefile.include? "NONE"
+              licenses_set.add("")
             else
-              dual_licenses_str = dual_licenses_str + license_in_onefile + ' or '
-              dual_licenses.add(license_in_onefile)
+              if dual_licenses.include? license_in_onefile
+                puts("")
+              else
+                dual_licenses_str = dual_licenses_str + license_in_onefile + ' or '
+                dual_licenses.add(license_in_onefile)
+              end
             end
+            licenses_set.add(dual_licenses_str[0,dual_licenses_str.length-4])
+            licenses_set.delete("")
           end
-          licenses_set.add(dual_licenses_str[0,dual_licenses_str.length-4])
-          licenses_set.delete("")
-        }
-      }
+        rescue
+            file_licenses_hash.store(filepath,"UNKNOWN")
+            licenses_set.add("Other")
+        end
+      end
+      licenses_set.delete(nil)
       return file_licenses_hash,licenses_set
     end
 
-    def compatibility_lookup(licenseA,licenseB)
+    def self.compatibility_lookup(licenseA,licenseB)
       compatibility_AB = -1
       c_table = CSV.read("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv",headers:true)
       CSV.foreach("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv") do |row|
@@ -87,7 +102,7 @@ module Licenserec
           if licenseA.include? " or "
             licenseAs = licenseA.split(" or ")
             licenseAs.each{ |lA|
-              compatibilityAB = compatibility_lookup(licenseA,licenseB)
+              compatibilityAB = CompatibilityFilter.compatibility_lookup(licenseA,licenseB)
               if compatibilityAB == "1"
                 recommend_licenses_1.push(licenseB)
               elsif compatibilityAB == "2"
@@ -97,7 +112,7 @@ module Licenserec
               end
             }
           else
-            compatibilityAB = compatibility_lookup(licenseA,licenseB)
+            compatibilityAB = CompatibilityFilter.compatibility_lookup(licenseA,licenseB)
             if compatibilityAB == "1"
               recommend_licenses_1.push(licenseB)
             elsif compatibilityAB == "2"
@@ -114,25 +129,32 @@ module Licenserec
 
   class CompatibilityCheck
     def initialize(repo_path)
-      puts compatibilitycheck(repo_path)
+      ss = compatibilitycheck(repo_path)
+      ss.each do |ii|
+        puts ii
+      end
     end
     def compatibilitycheck(repo_path)
       file_licenses_hash,licenses_set = CompatibilityFilter.license_detection(repo_path)
+      c_table = CSV.read("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv",headers:true)
+      check_license_list = c_table["license"]
+      # puts check_license_list
       confilct_copyleft_set = Set.new
       licenses_set.each do |licenseA|
         licenses_set.each do |licenseB|
-          if licenseA.include? " or " == false
+          if (licenseA.include? " or ") == false
             iscompatibility = 0
             ischeck = 0
-            if licenseB.include? " or " == false
+            if (licenseB.include? " or ") == false
               ischeck = 1
-              compatibility_result_ab = compatibility_judge(licenseA, licenseB)
-              compatibility_result_ba = compatibility_judge(licenseB, licenseA)
+              compatibility_result_ab = CompatibilityFilter.compatibility_lookup(licenseA, licenseB)
+              compatibility_result_ba = CompatibilityFilter.compatibility_lookup(licenseB, licenseA)
               if compatibility_result_ab != '0' or compatibility_result_ba != '0'
                 iscompatibility = 1
               end
               if iscompatibility == 0 and ischeck == 1
-                if confilct_copyleft_set.include? licenseA+ "和" + licenseB + "互不兼容。"
+                # puts licenseA+ "和" + licenseB + "互不兼容。"
+                if (confilct_copyleft_set.include? licenseA+ "和" + licenseB + "互不兼容。") == false and (confilct_copyleft_set.include? licenseB+ "和" + licenseA + "互不兼容。") == false
                   confilct_copyleft_set.add(licenseA + "和" + licenseB + "互不兼容。")
                 end
               end
@@ -141,15 +163,16 @@ module Licenserec
               licenseBs.each do |lB|
                 if check_license_list.include? lB
                   ischeck = 1
-                  compatibility_result_ab = compatibility_judge(licenseA, lB)
-                  compatibility_result_ba = compatibility_judge(lB, licenseA)
+                  compatibility_result_ab = CompatibilityFilter.compatibility_lookup(licenseA, lB)
+                  compatibility_result_ba = CompatibilityFilter.compatibility_lookup(lB, licenseA)
                   if compatibility_result_ab != '0' or compatibility_result_ba != '0'
                     iscompatibility = 1
                   end
                 end
               end
               if iscompatibility == 0 and ischeck == 1
-                if confilct_copyleft_set.include? licenseB + "和" + licenseA + "互不兼容。"
+                # puts licenseA+ "和" + licenseB + "互不兼容。"
+                if (confilct_copyleft_set.include? licenseA+ "和" + licenseB + "互不兼容。") == false and (confilct_copyleft_set.include? licenseB+ "和" + licenseA + "互不兼容。") == false
                   confilct_copyleft_set.add(licenseA + "和" + licenseB + "互不兼容。")
                 end
               end
@@ -158,16 +181,17 @@ module Licenserec
             iscompatibility = 0
             ischeck = 0
             licenseAs = licenseA.split(' or ')
-            if licenseB.include? " or " == false
+            if (licenseB.include? " or ") == false
               licenseAs.each do |lA|
                 if check_license_list.include? lA
                   ischeck = 1
-                  compatibility_result_ab = compatibility_judge(lA, licenseB)
-                  compatibility_result_ba = compatibility_judge(licenseB, lA)
+                  compatibility_result_ab = CompatibilityFilter.compatibility_lookup(lA, licenseB)
+                  compatibility_result_ba = CompatibilityFilter.compatibility_lookup(licenseB, lA)
                   if compatibility_result_ab != '0' or compatibility_result_ba != '0'
                     iscompatibility = 1
                     if iscompatibility == 0 and ischeck == 1
-                      if confilct_copyleft_set.include? licenseB + "和" + licenseA + "互不兼容。"
+                      # puts licenseA+ "和" + licenseB + "互不兼容。"
+                      if (confilct_copyleft_set.include? licenseA+ "和" + licenseB + "互不兼容。") == false and (confilct_copyleft_set.include? licenseB+ "和" + licenseA + "互不兼容。") == false
                         confilct_copyleft_set.add(licenseA + "和" + licenseB + "互不兼容。")
                       end
                     end
@@ -178,15 +202,16 @@ module Licenserec
               licenseBs = licenseB.split(' or ')
               licenseAs.each do |lA|
                 licenseBs.each do |lB|
-                  if check_license_list.include? lA and check_license_list.include? lB:
+                  if check_license_list.include? lA and check_license_list.include? lB
                     ischeck = 1
-                    compatibility_result_ab = compatibility_judge(lA, lB)
-                    compatibility_result_ba = compatibility_judge(lB, lA)
+                    compatibility_result_ab = CompatibilityFilter.compatibility_lookup(lA, lB)
+                    compatibility_result_ba = CompatibilityFilter.compatibility_lookup(lB, lA)
                     if compatibility_result_ab != '0' or compatibility_result_ba != '0'
                       iscompatibility = 1
                     end
                     if iscompatibility == 0 and ischeck == 1
-                      if onfilct_copyleft_set.include? licenseB + "和" + licenseA + "互不兼容。"
+                      # puts licenseA+ "和" + licenseB + "互不兼容。"
+                      if (confilct_copyleft_set.include? licenseA+ "和" + licenseB + "互不兼容。") == false and (confilct_copyleft_set.include? licenseB+ "和" + licenseA + "互不兼容。") == false
                         confilct_copyleft_set.add(licenseA + "和" + licenseB + "互不兼容。")
                       end
                     end
@@ -197,6 +222,7 @@ module Licenserec
           end
         end
       end
+      return confilct_copyleft_set
     end
   end
 
