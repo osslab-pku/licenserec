@@ -6,8 +6,9 @@ require 'csv'
 
 module Licenserec
   class LicenseGuide
-    def initialize()
+    def initialize(licenses_list)
       puts "许可证选择向导"
+      puts LicenseGuide.licenses_term_compare(licenses_list)
     end
 
     def self.license_term_lookup(one_license,one_term)
