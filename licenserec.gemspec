@@ -5,7 +5,7 @@ require_relative "lib/licenserec/version"
 Gem::Specification.new do |spec|
   spec.name = "licenserec.rb"
   spec.version = Licenserec::VERSION
-  spec.authors = ["oss-lab"]
+  spec.authors = ["osslab-pku"]
   spec.email = ["blesswoo@pku.edu.cn"]
 
   spec.summary = "licenserec.rb."
