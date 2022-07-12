@@ -11,19 +11,20 @@ module Licenserec
         end
 
         def self.license_terms_choice(questions_val,init_licenselist)
-            c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
-            licenses_spdx = c_table['license']
-            licenses_copyleft = c_table['copyleft']
-            licenses_copyright = c_table['copyright']
-            licenses_patent = c_table['patent']
-            licenses_patent_term = c_table['patent_term']
-            licenses_trademark = c_table['trademark']
-            licenses_interaction = c_table['interaction']
-            licenses_modification = c_table['modification']
+            c_table = CSV.table("lib\\licenses_terms_63.csv")
+            licenses_spdx = c_table[:license]
+            licenses_copyleft = c_table[:copyleft]
+            licenses_copyright = c_table[:copyright]
+            licenses_patent = c_table[:patent]
+            licenses_patent_term = c_table[:patent_term]
+            licenses_trademark = c_table[:trademark]
+            licenses_interaction = c_table[:interaction]
+            licenses_modification = c_table[:modification]
+            
 
-            licenses_copyleft.each do |x|
-                puts x
-            end
+            # licenses_copyleft.each do |x|
+            #     puts "#{x}"
+            # end
             # 初始化推荐列表
             licenselist_recommended = init_licenselist
             # 满足各个条款的列表的列表
@@ -40,8 +41,10 @@ module Licenserec
                     q2_show = 0
                     licenses_copyleft.each_with_index do |x,i|
                         
+
                         if x.to_i == 0 && licenses_copyright[i].to_i != -1
                             license_ok.push(licenses_spdx[i])
+                            
                         end
                     end
                 elsif questions_val[0] == '限制型开源许可证'
@@ -159,9 +162,7 @@ module Licenserec
                     licenses_trademark.each_with_index do |x,i|
                         
                         if x.to_i == 0
-                            if licenses_spdx[i] == 'CC0-1.0'
-                                puts 1
-                            end
+
                             license_ok.push(licenses_spdx[i])
                         end
                     end
@@ -233,7 +234,6 @@ module Licenserec
             terms_choice = []
 
             for i in 0..6
-
                 licenselist_recommended=licenselist_recommended & rr_license[i]
                 licenselist_recommended=licenselist_recommended.sort
                 if rr_question_var[i] != ""
@@ -242,8 +242,8 @@ module Licenserec
             end
 
             
-            # puts licenselist_recommended
-            # puts terms_choice
+            puts licenselist_recommended
+            puts terms_choice
 
             return licenselist_recommended, terms_choice
         end
