@@ -250,5 +250,5 @@ module Licenserec
     end
 end
 
-
-Licenserec::Termschoice.license_terms_choice(['宽松型开源许可证','','不提及专利权','不包含反专利诉讼条款','不提及商标权','不网络部署公开源码','不包含修改说明条款'],["NTP","CC0-1.0","Unlicense","WTFPL","0BSD","MIT-0","Fair","MIT","ISC","FSFAP","Imlib2"])
+#Test
+#Licenserec::Termschoice.license_terms_choice(['宽松型开源许可证','','不提及专利权','不包含反专利诉讼条款','不提及商标权','不网络部署公开源码','不包含修改说明条款'],["NTP","CC0-1.0","Unlicense","WTFPL","0BSD","MIT-0","Fair","MIT","ISC","FSFAP","Imlib2"])
