@@ -7,4 +7,6 @@ module Licenserec
   # Your code goes here...
   require 'licensecompatibility'
   require 'licenseguide'
+  require 'licensechoice'
+  require 'licensecompare'
 end

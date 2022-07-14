@@ -44,7 +44,7 @@ module Licenserec
     end
 
     def self.ninka_process(filepath)
-      io = IO.popen("perl E:\\ninka-tool\\ninka-master\\bin\\ninka.pl " + filepath)
+      io = IO.popen("perl lib\\ninka-tool\\ninka-master\\bin\\ninka.pl " + filepath)
       io_stdout = io.gets.split(";")
       file_license_list = io_stdout[1].split(",")
       return file_license_list
@@ -92,8 +92,8 @@ module Licenserec
 
     def self.compatibility_lookup(licenseA,licenseB)
       compatibility_AB = -1
-      c_table = CSV.read("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv",headers:true)
-      CSV.foreach("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv") do |row|
+      c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
+      CSV.foreach("lib\\compatibility_63.csv") do |row|
         if row[0]==licenseA
           no_row = $.
           compatibility_AB = c_table[no_row-2][licenseB]
@@ -146,7 +146,7 @@ module Licenserec
     end
     def compatibilitycheck(repo_path)
       file_licenses_hash,licenses_set = CompatibilityFilter.license_detection(repo_path)
-      c_table = CSV.read("E:\\OSSLSelection\\OSSLSelection\\csv\\compatibility_63.csv",headers:true)
+      c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
       check_license_list = c_table["license"]
       # puts check_license_list
       confilct_copyleft_set = Set.new
