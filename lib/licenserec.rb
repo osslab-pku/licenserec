@@ -6,7 +6,7 @@ module Licenserec
   class Error < StandardError; end
   # Your code goes here...
   require 'licensecompatibility'
-  require 'licenseguide'
-  require 'licensechoice'
+  require 'licensetypeguide'
+  require 'licensetermchoice'
   require 'licensecompare'
 end

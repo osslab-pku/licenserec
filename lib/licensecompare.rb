@@ -5,11 +5,12 @@ require 'csv'
 
 
 module Licenserec
-  class LicenseTerms
+  class TermsCompare
     def initialize()
 
     end
 
+    # 输入为许可证列表，输出列表中的许可证的条款要素值，
     def self.licenses_term_compare(licenses_list)
       license_terms_hash = Hash.new
       c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)

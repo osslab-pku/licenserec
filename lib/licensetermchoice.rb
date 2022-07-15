@@ -10,6 +10,7 @@ module Licenserec
         def initialize()
         end
 
+        # 开源许可证条款要素名称、含义及要素值
         def self.terms_meaning()
             terms_meaning_hash = Hash.new
             terms_meaning_hash.store("info","许可证名称及版本号、发布日期、许可证版权声明及许可证原文链接地址等信息。‘1’表示明确包含该条款，‘0’表示未提及。")
@@ -34,6 +35,7 @@ module Licenserec
             return terms_meaning_hash
         end
 
+        # 开源许可证关键条款及说明
         def self.important_terms_instruction()
             important_terms_instruction_hash = Hash.new
             important_terms_instruction_hash.store("开源许可证类型","宽松型开源许可证授权的作品允许其衍生作品，在满足原开源许可证
@@ -77,6 +79,7 @@ module Licenserec
             return important_terms_instruction_hash
         end
 
+        # 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX，输入2为条款要素名称。条款要素名称见terms_meaning()中定义
         def self.license_term_lookup(one_license,one_term)
             term_feature = -1
             c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)
@@ -89,7 +92,7 @@ module Licenserec
             return term_feature
         end
 
-        
+        # 根据条款要素值，从推荐许可证列表中，筛选符合要求的许可证，输出更新的推荐许可证列表。输入1为条款要素名称，输入2为推荐许可证列表，输入3为条款要素值。
         def self.license_term_choice(one_term,recommended_licenses,term_option)
             remove_licenses = []
             recommended_licenses.each do |one_license|

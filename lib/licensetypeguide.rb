@@ -13,6 +13,7 @@ module Licenserec
       puts LicensetypeGuide.business_model_feature()
     end
 
+    # 个人开源风格方面，选择开源许可证类型的观点
     def self.os_style_guide()
       os_style_hash = Hash.new
       os_style_hash.store("支持持续共享","也称 copyleft的“自由”哲学理念，支持该理念的开发者不但
@@ -31,6 +32,7 @@ module Licenserec
       return os_style_hash
     end
 
+    # 开源商业模式方面，选择开源许可证类型的观点
     def self.os_business_guide()
       os_business_hash = Hash.new
       os_business_hash.store("扩大用户基础","支持服务、开放核心等商业模式依赖于广泛
@@ -48,6 +50,7 @@ module Licenserec
       return os_business_hash
     end
 
+    # 项目社区发展方面，选择开源许可证类型的观点
     def self.os_community_guide()
       os_community_hash = Hash.new
       os_community_hash.store("用户","宽松型开源许可证
@@ -62,6 +65,7 @@ module Licenserec
       return os_community_hash
     end
 
+    # 常见的开源商业模式及特点
     def self.business_model_feature()
       business_model_hash = Hash.new()
       business_model_hash.store("支持服务","通过围绕开源产品的培训、咨询或扩展开发等形式来提供辅助产品和增值服
