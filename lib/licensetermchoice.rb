@@ -13,8 +13,8 @@ module Licenserec
         # 开源许可证条款要素名称、含义及要素值
         def self.terms_meaning()
             terms_meaning_hash = Hash.new
-            terms_meaning_hash.store("info","许可证名称及版本号、发布日期、许可证版权声明及许可证原文链接地址等信息。‘1’表示明确包含该条款，‘0’表示未提及。")
-            terms_meaning_hash.store("preamble","于对许可证的适用场景或适用条件、条款接受说明、以及目的宗旨等进行说明，如GPL序言部分。‘1’表示明确包含该条款，‘0’表示未提及。")
+            terms_meaning_hash.store("info","是指许可证名称及版本号、发布日期、许可证版权声明及许可证原文链接地址等信息。‘1’表示明确包含该条款，‘0’表示未提及。")
+            terms_meaning_hash.store("preamble","对许可证的适用场景或适用条件、条款接受说明、以及目的宗旨等进行说明，如GPL序言部分。‘1’表示明确包含该条款，‘0’表示未提及。")
             terms_meaning_hash.store("define","对许可证条款中的特定术语进行说明，便于用户理解许可证内容。‘1’表示明确包含该条款，‘0’表示未提及。")
             terms_meaning_hash.store("copyright","对许可证授予的版权范围进行说明。‘-1’表示放弃版权投入公共领域，‘1’表示明确授予版权，‘0’表示模糊授予版权。")
             terms_meaning_hash.store("patent","对许可证授予的专利权范围进行说明。‘-1’表示不授予专利权，‘1’表示明确授予专利权，‘0’表示未提及。")
@@ -79,7 +79,7 @@ module Licenserec
             return important_terms_instruction_hash
         end
 
-        # 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX，输入2为条款要素名称。条款要素名称见terms_meaning()中定义
+        # 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX，输入2为条款要素名称。输出为要素值，其中--。
         def self.license_term_lookup(one_license,one_term)
             term_feature = -1
             c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)

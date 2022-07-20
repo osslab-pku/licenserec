@@ -10,9 +10,10 @@ module Licenserec
 
     end
 
-    # 输入为许可证列表，输出列表中的许可证的条款要素值，
+    # 输入为许可证列表，输出列表中的许可证的条款要素值。
     def self.licenses_term_compare(licenses_list)
       license_terms_hash = Hash.new
+      license_terms_hash.store("license",["info","preamble","define","copyright	patent",	"trademark",	"copyleft",	"interaction",	"modification",	"retain_attr",	"enhance_attr",	"acceptance",	"patent_term",	"vio_term",	"disclaimer",	"law",	"instruction",	"compatible_version",	"secondary_license",	"gpl_combine"])
       c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)
       CSV.foreach("lib\\licenses_terms_63.csv") do |row|
         licenses_list.each do |one_license|

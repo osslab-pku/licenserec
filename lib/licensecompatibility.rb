@@ -25,8 +25,8 @@ module Licenserec
     # 次级兼容、组合兼容和不兼容的含义
     def self.compatibility_meaning()
       compatibility_meaning_hash = Hash.new
-      compatibility_meaning_hash.store("次级兼容","开源许可证A授权的作品（无论是否经过修改）与开源许可证B授权的作品组合，所产生的衍生作品整体可合法地使用开源许可证B重新授权时，则认为开源许可证A次级兼容开源许可证B。本知识库中使用‘1’表示次级兼容。")
-      compatibility_meaning_hash.store("组合兼容","开源许可证A授权的作品（无论是否经过修改）可以与开源许可证B授权的作品可以合法地组合而不违反任一开源许可证时，可以认为开源许可证A组合兼容开源许可证B。本知识库中使用‘2’表示组合兼容。")
+      compatibility_meaning_hash.store("次级兼容","开源许可证A授权的作品（无论是否经过修改）与开源许可证B授权的作品组合，所产生的衍生作品整体可合法地使用开源许可证B重新授权时，则认为开源许可证A次级兼容开源许可证B。")
+      compatibility_meaning_hash.store("组合兼容","开源许可证A授权的作品（无论是否经过修改）可以与开源许可证B授权的作品可以合法地组合而不违反任一开源许可证时，可以认为开源许可证A组合兼容开源许可证B。")
       compatibility_meaning_hash.store("不兼容","不满足次级兼容或组合兼容的条件，则不兼容。本知识库中使用‘0’表示不兼容。")
       return compatibility_meaning_hash
     end
@@ -116,7 +116,7 @@ module Licenserec
       return compatibility_AB
     end
 
-    # 兼容许可证筛选，输入1为项目路径，输入2为ninka路径，输入3为许可证推荐范围，其中“popular”包含MIT等20种常见开源许可证，“all”包含本知识库支持的6种开源许可证。
+    # 兼容许可证筛选，输入1为项目路径，输入2为ninka路径，输入3为许可证推荐范围，其中默认值“popular”包含MIT等20种常见开源许可证，“all”包含本知识库支持的6种开源许可证。输出1为仅满足次级兼容的许可证列表，输出2为仅满足组合兼容的许可证列表，输出3为既满足次级兼容又满足组合兼容的许可证列表。
     def self.compatibility_filter(repo_path,ninka_path,recommand_scale="popular")
       licenseA_set = CompatibilityFilter.license_detection(repo_path,ninka_path)
       if recommand_scale == "popular"
