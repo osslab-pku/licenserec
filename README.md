@@ -54,19 +54,20 @@ Perl
 
 ### 方法&描述
 
-| 序号 | 类 | 方法 | 描述 |   
-| 1 | CompatibilityFilter | ninka_process(filepath,ninka_path) | 第三方工具Ninka识别文件许可证，一个文件可能包含多个许可证。输入1为文件的路径(String)，输入2为ninka.pl的路径(String)；输出为许可证列表(Array)。 |  
-| 2 |   | license_detection(repo_path,ninka_path) | 识别项目所包含的许可证，输入1为项目路径(String)，输入2为ninka.pl的路径(String)；输出1为文件路径及对应许可证信息的哈希表(Hash)，输出2为项目包含的许可证集合(Set)。  |  
-| 3 |   | compatibility_lookup(licenseA,licenseB) | 兼容性查询，输入1为许可证A(String)，通常指项目中第三方组件的许可证，输入2为许可证B(String)，通常指项目许可证；输出为(String)，其中"0"(不兼容)、"1"(次级兼容)、"2"(组合兼容)、"1,2"(次级兼容或组合兼容)。 |   
-| 4 |   | compatibility_filter(repo_path,ninka_path,recommand_scale="popular") | 兼容许可证筛选，输入1为项目路径(String)，输入2为ninka.pl的路径(String)，输入3为许可证推荐范围(String)，其中“popular”包含MIT等20种常见开源许可证，“all”包含本知识库支持的6种开源许可证；输出1为仅满足次级兼容的许可证列表(Array)，输出2为仅满足组合兼容的许可证列表(Array)，输出3为既满足次级兼容又满足组合兼容的许可证列表(Array)。 |   
-| 5 | CompatibilityCheck | compatibilitycheck(repo_path,ninka_path) | 兼容性检查，输入1为项目路径(String)，输入2为ninka.pl路径(String)；输出为“OK”(String),或项目种包含互不兼容许可证的提示信息的集合(Set)和对应文件路径的列表(Array)。 |   
+| 序号 | 类 | 方法 | 描述 | 
+| ------ | ------ | ------ | ------ |
+| 1 | CompatibilityFilter | ninka_process(filepath,ninka_path) | 第三方工具Ninka识别文件许可证，一个文件可能包含多个许可证。输入1为文件的路径(String)，输入2为ninka.pl的路径(String)；输出为许可证列表(Array)。 |
+| 2 |   | license_detection(repo_path,ninka_path) | 识别项目所包含的许可证，输入1为项目路径(String)，输入2为ninka.pl的路径(String)；输出1为文件路径及对应许可证信息的哈希表(Hash)，输出2为项目包含的许可证集合(Set)。  |
+| 3 |   | compatibility_lookup(licenseA,licenseB) | 兼容性查询，输入1为许可证A(String)，通常指项目中第三方组件的许可证，输入2为许可证B(String)，通常指项目许可证；输出为(String)，其中"0"(不兼容)、"1"(次级兼容)、"2"(组合兼容)、"1,2"(次级兼容或组合兼容)。 | 
+| 4 |   | compatibility_filter(repo_path,ninka_path,recommand_scale="popular") | 兼容许可证筛选，输入1为项目路径(String)，输入2为ninka.pl的路径(String)，输入3为许可证推荐范围(String)，其中“popular”包含MIT等20种常见开源许可证，“all”包含本知识库支持的6种开源许可证；输出1为仅满足次级兼容的许可证列表(Array)，输出2为仅满足组合兼容的许可证列表(Array)，输出3为既满足次级兼容又满足组合兼容的许可证列表(Array)。 |
+| 5 | CompatibilityCheck | compatibilitycheck(repo_path,ninka_path) | 兼容性检查，输入1为项目路径(String)，输入2为ninka.pl路径(String)；输出为“OK”(String),或项目种包含互不兼容许可证的提示信息的集合(Set)和对应文件路径的列表(Array)。 |
 | 6 | Termschoice | important_terms_instruction() | 开源许可证关键条款及说明。 |
-| 7 |   | license_term_lookup(one_license,one_term) | 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX(String)，输入2为条款要素名称(String)；输出为要素值(String)，其中--。 |   
-| 8 |   | license_term_choice(one_term,recommended_licenses,term_option) | 根据条款要素值，从推荐许可证列表中，筛选符合要求的许可证，输出更新的推荐许可证列表。输入1为条款要素名称(String)，输入2为推荐许可证列表(Array)，输入3为条款要素值(String)；输出为recommand_license中符合该要素条件的许可证列表(Array)。 |   
-| 9 | LicensetypeGuide | os_style_guide() | 个人开源风格方面，选择开源许可证类型的观点(Hash)。 |   
-| 10 |   | os_business_guide() | 开源商业模式方面，选择开源许可证类型的观点(Hash)。 |   
-| 11 |   | os_community_guide() | 项目社区发展方面，选择开源许可证类型的观点(Hash)。 |   
-| 12 |   | business_model_feature() | 常见的开源商业模式及特点(Hash)。 |   
+| 7 |   | license_term_lookup(one_license,one_term) | 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX(String)，输入2为条款要素名称(String)；输出为要素值(String)，其中--。 |
+| 8 |   | license_term_choice(one_term,recommended_licenses,term_option) | 根据条款要素值，从推荐许可证列表中，筛选符合要求的许可证，输出更新的推荐许可证列表。输入1为条款要素名称(String)，输入2为推荐许可证列表(Array)，输入3为条款要素值(String)；输出为recommand_license中符合该要素条件的许可证列表(Array)。 |
+| 9 | LicensetypeGuide | os_style_guide() | 个人开源风格方面，选择开源许可证类型的观点(Hash)。 |
+| 10 |   | os_business_guide() | 开源商业模式方面，选择开源许可证类型的观点(Hash)。 |
+| 11 |   | os_community_guide() | 项目社区发展方面，选择开源许可证类型的观点(Hash)。 |
+| 12 |   | business_model_feature() | 常见的开源商业模式及特点(Hash)。 |
 | 13 | TermsCompare | licenses_term_compare(licenses_list) | 输入为许可证列表，输出列表中的许可证的条款要素值(Hash)，key为许可证SPDX(String)，value为要素值列表(Array)。 |
 
 
