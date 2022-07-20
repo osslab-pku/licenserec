@@ -9,4 +9,5 @@ module Licenserec
   require 'licensetypeguide'
   require 'licensetermchoice'
   require 'licensecompare'
+  require 'licensesort'
 end
