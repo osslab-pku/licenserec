@@ -77,12 +77,7 @@ Perl5
 | 16 |   | license_sort(license_list,desc=true,sort_hash=LicenseSort.csv_to_hash("lib\\license_readability.csv",header=true,i=0,j=4)) | 对指定许可证列表进行排序。输入1为指定的许可证列表，输入2为升降序(默认降序)，输入3为参照排序哈希表(key为许可证SPDX,value为参照值，默认按文本复杂度)；输出排序后的许可证列表。 |
 
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/licenserec.
+Bug reports and pull requests are welcome on GitHub at https://github.com/osslab-pku/licenserec.
