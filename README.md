@@ -72,6 +72,9 @@ Perl5
 | 11 |   | os_community_guide() | 项目社区发展方面，选择开源许可证类型的观点(Hash)。 |
 | 12 |   | business_model_feature() | 常见的开源商业模式及特点(Hash)。 |
 | 13 | TermsCompare | licenses_term_compare(licenses_list) | 输入为许可证列表，输出列表中的许可证的条款要素值(Hash)，key为许可证SPDX(String)，value为要素值列表(Array)。 |
+| 14 | LicenseSort | csv_to_hash(csv_table,header=true,i=0,j=1) | 将csv转为哈希值。输入1为csv表，输入2为是否包含首行(默认包含)，输入3为列数i(转为hash的key)，输入4为列数j(转为hash的value)；输出为哈希表。 |
+| 15 |   | sortvalue_lookup(one_license,sort_hash) | 从排序哈希表中查询排序值。输入1为许可证SPDX,输入2为参照排序哈希表；输出为该许可证的排序值。 |
+| 16 |   | license_sort(license_list,desc=true,sort_hash=LicenseSort.csv_to_hash("lib\\license_readability.csv",header=true,i=0,j=4)) | 对指定许可证列表进行排序。输入1为指定的许可证列表，输入2为升降序(默认降序)，输入3为参照排序哈希表(key为许可证SPDX,value为参照值，默认按文本复杂度)；输出排序后的许可证列表。 |
 
 
 ## Development
