@@ -56,7 +56,7 @@ Perl5
 
 ### 方法&描述
 
-<<<<<<< HEAD
+
 | 序号 | 类 | 方法 | 描述 |
 | ------ | ------ | ------ | ------ |
 | 1 | CompatibilityFilter | ninka_process(filepath,ninka_path) | 第三方工具Ninka识别文件许可证，一个文件可能包含多个许可证。输入1为文件的路径(String)，输入2为ninka.pl的路径(String)；输出为许可证列表(Array)。 |  
