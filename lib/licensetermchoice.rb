@@ -6,7 +6,7 @@ require 'open3'
 require 'csv'
 
 module Licenserec
-    class Termschoice
+    class TermsChoice
         def initialize()
         end
 
@@ -30,8 +30,9 @@ module Licenserec
             terms_meaning_hash.store("disclaimer","对不提供担保进行澄清声明。‘1’表示明确包含该条款，‘0’表示未提及。")
             terms_meaning_hash.store("law","对许可证对应的准据法进行说明，用于处理许可证的解释和争议问题。‘1’表示明确包含该条款，‘0’表示未提及。")
             terms_meaning_hash.store("instruction","提供许可证应用模板及明确模板放置位置。‘1’表示包含使用说明，‘0’表示未提及。")
-            terms_meaning_hash.store("compatible_version","是对于后续可能发布的更多版本的兼容性进行说明，以便用户可以在后续版本下分发许可作品和衍生作品。兼容版本的SPDX的列表")
-            terms_meaning_hash.store("secondary_license","是对于现有的其他开源许可证的兼容性进行说明，以便用户可以在次级许可证下分发许可作品和衍生作品。次级许可证的SPDX的列表")
+            terms_meaning_hash.store("compatible_version","是对于后续可能发布的更多版本的兼容性进行说明，以便用户可以在后续版本下分发许可作品和衍生作品。逗号分隔的许可证SPDX字符串。")
+            terms_meaning_hash.store("secondary_license","是对于现有的其他开源许可证的兼容性进行说明，以便用户可以在次级许可证下分发许可作品和衍生作品。逗号分隔的许可证SPDX字符串。")
+            terms_meaning_hash.store("gpl_combine","GPL类许可证中关于能否与其他GPL许可证组合的说明。逗号分隔的许可证SPDX字符串。")
             return terms_meaning_hash
         end
 
@@ -92,12 +93,12 @@ module Licenserec
             return term_feature
         end
 
-        # 根据条款要素值，从推荐许可证列表中，筛选符合要求的许可证，输出更新的推荐许可证列表。输入1为条款要素名称，输入2为推荐许可证列表，输入3为条款要素值。
+        # 根据条款要素值，从推荐许可证列表中，筛选符合要求的许可证，输出更新的推荐许可证列表。输入1为条款要素名称，输入2为推荐许可证列表，输入3为条款要素值(String)。
         def self.license_term_choice(one_term,recommended_licenses,term_option)
             remove_licenses = []
             recommended_licenses.each do |one_license|
-                term_feature = Termschoice.license_term_lookup(one_license,one_term)
-                if term_feature != term_option
+                term_feature = TermsChoice.license_term_lookup(one_license,one_term)
+                if term_feature != String(term_option)
                     remove_licenses.push(one_license)
                 end
             end
@@ -347,5 +348,5 @@ module Licenserec
 end
 
 # Test
-# Licenserec::Termschoice.license_terms_choice(['宽松型开源许可证','','不提及专利权','不包含反专利诉讼条款','不提及商标权','不网络部署公开源码','不包含修改说明条款'],["NTP","CC0-1.0","Unlicense","WTFPL","0BSD","MIT-0","Fair","MIT","ISC","FSFAP","Imlib2"])
-# puts Licenserec::Termschoice.license_term_lookup("OSL-3.0","patent")
+# Licenserec::TermsChoice.license_terms_choice(['宽松型开源许可证','','不提及专利权','不包含反专利诉讼条款','不提及商标权','不网络部署公开源码','不包含修改说明条款'],["NTP","CC0-1.0","Unlicense","WTFPL","0BSD","MIT-0","Fair","MIT","ISC","FSFAP","Imlib2"])
+# puts Licenserec::TermsChoice.license_term_lookup("OSL-3.0","patent")

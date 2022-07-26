@@ -6,11 +6,6 @@ require_relative "licenserec/version"
 module Licenserec
   class LicensetypeGuide
     def initialize()
-      puts "许可证选择向导"
-      puts LicensetypeGuide.os_style_guide()
-      puts LicensetypeGuide.os_business_guide()
-      puts LicensetypeGuide.os_community_guide()
-      puts LicensetypeGuide.business_model_feature()
     end
 
     # 个人开源风格方面，选择开源许可证类型的观点
@@ -100,14 +95,12 @@ module Licenserec
                                 件，只能说源码可用(source available)。")
       business_model_hash.store("软件即服务","利用开源软件通过互联网提供服务，但是软件并没有分发给他们的用户。
                                 SaaS 与开源没有直接关系，但它可以合并开源组件或直接使用开源软件。")
-      business_model_hash.store("广告或版税","企业还可以通过广告合作、品牌授权、销售商业软件等方式创造利益，例如
+      business_model_hash.store("广告或版税","企业可以通过广告合作、品牌授权、销售商业软件等方式创造利益，例如
                                 Mozilla 公司通过与雅虎(Yahoo)合作，在 Firefox 火狐浏览器中使用雅虎成为
                                 默认搜索引擎获得收入等。")
       return business_model_hash
     end
 
   end
-
-
 
 end
