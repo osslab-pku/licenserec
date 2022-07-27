@@ -10,10 +10,11 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Licenserec是一个用于开源许可证选择的ruby库"
   spec.description = "Licenserec是一个用于开源许可证选择的ruby库，提供许可证兼容性查询、许可证兼容性检查、项目兼容许可证筛选、许可证条款特征查询、许可证条款特征对比、许可证类型选择观点、许可证关键条款解读等功能。"
-  spec.homepage = "https://github.com/osslab-pku/licenserec"
+  #spec.homepage = "https://github.com/osslab-pku/licenserec"
+  spec.homepage="https://rubygems.org/gems/licenserec"
   spec.required_ruby_version = ">= 2.4.0"
 
-  spec.metadata["allowed_push_host"] = "https://github.com/osslab-pku/licenserec"
+  #spec.metadata["allowed_push_host"] = "https://github.com/osslab-pku/licenserec"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/osslab-pku/licenserec"
