@@ -2,7 +2,7 @@
 
 require_relative "licenserec/version"
 require 'csv'
-
+require 'pathname'
 
 module Licenserec
   class TermsCompare
@@ -14,8 +14,9 @@ module Licenserec
     def self.licenses_term_compare(licenses_list)
       license_terms_hash = Hash.new
       license_terms_hash.store("license",["info","preamble","define","copyright	patent",	"trademark",	"copyleft",	"interaction",	"modification",	"retain_attr",	"enhance_attr",	"acceptance",	"patent_term",	"vio_term",	"disclaimer",	"law",	"instruction",	"compatible_version",	"secondary_license",	"gpl_combine"])
-      c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)
-      CSV.foreach("lib\\licenses_terms_63.csv") do |row|
+      cur_path=String(Pathname.new(File.dirname(__FILE__)).realpath)
+      c_table = CSV.read(cur_path+"\\licenses_terms_63.csv",headers:true)
+      CSV.foreach(cur_path+"\\licenses_terms_63.csv") do |row|
         licenses_list.each do |one_license|
           if row[0] == one_license
             no_row = $.

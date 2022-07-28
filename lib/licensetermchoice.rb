@@ -4,7 +4,7 @@ require_relative "licenserec/version"
 require 'set'
 require 'open3'
 require 'csv'
-
+require 'pathname'
 module Licenserec
     class TermsChoice
         def initialize()
@@ -83,8 +83,9 @@ module Licenserec
         # 查询某个开源许可证的某个条款要素的值。输入1为许可证的SPDX，输入2为条款要素名称。输出为要素值，其中--。
         def self.license_term_lookup(one_license,one_term)
             term_feature = -1
-            c_table = CSV.read("lib\\licenses_terms_63.csv",headers:true)
-            CSV.foreach("lib\\licenses_terms_63.csv") do |row|
+            cur_path=String(Pathname.new(File.dirname(__FILE__)).realpath)
+            c_table = CSV.read(cur_path+"\\licenses_terms_63.csv",headers:true)
+            CSV.foreach(cur_path+"\\licenses_terms_63.csv") do |row|
                 if row[0] == one_license
                     no_row = $.
                     term_feature = c_table[no_row-2][one_term]

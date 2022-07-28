@@ -4,7 +4,7 @@ require_relative "licenserec/version"
 require 'set'
 require 'open3'
 require 'csv'
-
+require 'pathname'
 module Licenserec
   class CompatibilityFilter
     def initialize()
@@ -94,8 +94,9 @@ module Licenserec
     # 兼容性查询，输入1为许可证A(通常指项目中第三方组件的许可证)，输入2为许可证B(通常指项目许可证)，输出为"0"(不兼容)、"1"(次级兼容)、"2"(组合兼容)、"1,2"(次级兼容或组合兼容)。
     def self.compatibility_lookup(licenseA,licenseB)
       compatibility_AB = '1,2'
-      c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
-      CSV.foreach("lib\\compatibility_63.csv") do |row|
+      cur_path=String(Pathname.new(File.dirname(__FILE__)).realpath)
+      c_table = CSV.read(cur_path+"\\compatibility_63.csv",headers:true)
+      CSV.foreach(cur_path+"\\compatibility_63.csv") do |row|
         if row[0]==licenseA
           no_row = $.
           compatibility_AB = c_table[no_row-2][licenseB]
@@ -107,7 +108,8 @@ module Licenserec
     # 兼容许可证筛选，输入1为项目路径，输入2为ninka路径，输入3为许可证推荐范围，其中默认值“popular”包含MIT等20种常见开源许可证，“all”包含本知识库支持的6种开源许可证。输出1为仅满足次级兼容的许可证列表，输出2为仅满足组合兼容的许可证列表，输出3为既满足次级兼容又满足组合兼容的许可证列表。
     def self.compatibility_filter(repo_path,ninka_path,recommand_scale="popular")
       filelicense_hash,licenseA_set = CompatibilityFilter.license_detection(repo_path,ninka_path)
-      c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
+      cur_path=String(Pathname.new(File.dirname(__FILE__)).realpath)
+      c_table = CSV.read(cur_path+"\\compatibility_63.csv",headers:true)
       all_license = c_table['license']
       if recommand_scale == "popular"
         licenseB_list = %w[MIT Apache-2.0 GPL-3.0 BSD-3-Clause GPL-2.0 AGPL-3.0 MPL-2.0 LGPL-3.0 BSD-2-Clause Unlicense ISC EPL-1.0 CC0-1.0 LGPL-2.1 WTFPL Zlib EPL-2.0 Artistic-2.0 MulanPSL-2.0 MulanPubL-2.0]
@@ -186,7 +188,8 @@ module Licenserec
     # 兼容性检查，输入1为项目路径，输入2为ninka路径，输出为“OK”,或项目种包含互不兼容许可证的提示信息的集合、对应文件路径的列表
     def self.compatibilitycheck(repo_path,ninka_path)
       file_licenses_hash,licenses_set = CompatibilityFilter.license_detection(repo_path,ninka_path)
-      c_table = CSV.read("lib\\compatibility_63.csv",headers:true)
+      cur_path=String(Pathname.new(File.dirname(__FILE__)).realpath)
+      c_table = CSV.read(cur_path+"\\compatibility_63.csv",headers:true)
       check_license_list = c_table["license"]
       conflict_copyleft_infoset = Set.new
       conflict_licenses = Set.new

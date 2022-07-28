@@ -2,7 +2,7 @@
 
 require_relative "licenserec/version"
 require 'csv'
-
+require 'pathname'
 
 module Licenserec
     class LicenseSort
@@ -32,9 +32,8 @@ module Licenserec
             end
             return Float(sortvalue[0])
         end
-
         # 对指定许可证列表进行排序。输入1为指定的许可证列表，输入2为升降序(默认降序)，输入3为参照排序哈希表(key为许可证SPDX,value为参照值，默认按文本复杂度)；输出排序后的许可证列表。
-        def self.license_sort(license_list,desc=true,sort_hash=LicenseSort.csv_to_hash("lib\\license_readability.csv",header=true,i=0,j=4))
+        def self.license_sort(license_list,desc=true,sort_hash=LicenseSort.csv_to_hash(String(Pathname.new(File.dirname(__FILE__)).realpath)+"\\license_readability.csv",header=true,i=0,j=4))
             sort_res=[]
             license_initsort = Hash.new
             for one_license in license_list do
