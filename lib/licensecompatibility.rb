@@ -280,7 +280,7 @@ module Licenserec
         end
       end
       conflict_filepath = []
-      if conflict_copyleft_infoset.nil?
+      if conflict_copyleft_infoset.empty?
         return "OK",nil
       else
         conflict_licenses.each do |one_license|
