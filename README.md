@@ -86,4 +86,4 @@ Perl5
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/osslab-pku/licenserec.
+Bug reports and pull requests are welcome on GitHub at https://github.com/osslab-pku/licenserec or https://www.gitlink.org.cn/zhcxww/licenserec.
