@@ -20,7 +20,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 Ruby2.4.5   
 Perl5   
 第三方工具Ninka部署：   
-下载许可证识别工具Ninka(https://github.com/osslab-pku/OSSLSelection/tree/main/OSSLSelection/ninka-tool/)并解压，将ninka-master\lib中的文件复制到C:\Strawberry\perl\lib，将ninka-master\bin中的文件复制到C:\Strawberry\perl\bin，ninka-master\comments文件夹复制到制到C:\Strawberry\perl\，cd到comments\，执行nmake；   
+下载许可证识别工具Ninka(https://github.com/osslab-pku/OSSLSelection/tree/main/OSSLSelection/ninka-tool)
+并解压，将ninka-master\lib中的文件复制到C:\Strawberry\perl\lib，将ninka-master\bin中的文件复制到C:\Strawberry\perl\bin，ninka-master\comments文件夹复制到制到C:\Strawberry\perl\，cd到comments\，执行nmake；   
 测试：cd到perl\bin\，执行perl ninka [filename]，查看是否filename的许可信息。
 
 ### 开源许可证范围
