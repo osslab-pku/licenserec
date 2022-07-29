@@ -1,5 +1,6 @@
 # Licenserec
 [![Gem](https://img.shields.io/gem/v/licenserec)](https://rubygems.org/gems/licenserec)
+
 Licenserec是一个用于开源许可证选择的ruby库，提供许可证兼容性查询、许可证兼容性检查、项目兼容许可证筛选、许可证条款特征查询、许可证条款特征对比、许可证类型选择观点、许可证关键条款解读等功能。
 
 NOTE: 本工具基于osslab-pku提供的开源许可证知识库，其提供的信息不代表律师的法律建议，若有需要请咨询专业律师。
